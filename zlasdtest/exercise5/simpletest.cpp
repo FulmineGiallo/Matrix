@@ -18,8 +18,8 @@ using namespace std;
 /* ************************************************************************** */
 
 template <template<typename> typename Mat>
-void stestMatrixInt(Mat<long>& mat, uint& testnum, uint& testerr) {
-  uint loctestnum = 0, loctesterr = 0;
+void stestMatrixInt(Mat<long>& mat, unsigned int& testnum, unsigned int& testerr) {
+  unsigned int loctestnum = 0, loctesterr = 0;
   try {
 
     Empty(loctestnum, loctesterr, mat, true);
@@ -196,8 +196,8 @@ void stestMatrixInt(Mat<long>& mat, uint& testnum, uint& testerr) {
   testerr += loctesterr;
 }
 
-void stestMatrixInt(uint& testnum, uint& testerr) {
-  uint loctestnum = 0, loctesterr = 0;
+void stestMatrixInt(unsigned int& testnum, unsigned int& testerr) {
+  unsigned int loctestnum = 0, loctesterr = 0;
   cout << endl << "Begin of Matrix<long> Test" << endl;
   try {
     lasd::MatrixVec<long> matvec;
@@ -217,8 +217,8 @@ void stestMatrixInt(uint& testnum, uint& testerr) {
 }
 
 template <typename Mat>
-void stestMatrixFloat(Mat& mat, uint& testnum, uint& testerr) {
-  uint loctestnum = 0, loctesterr = 0;
+void stestMatrixFloat(Mat& mat, unsigned int& testnum, unsigned int& testerr) {
+  unsigned int loctestnum = 0, loctesterr = 0;
   try {
 
     SetCell(loctestnum, loctesterr, mat, true, 0, 0, 3.0);
@@ -262,8 +262,8 @@ void stestMatrixFloat(Mat& mat, uint& testnum, uint& testerr) {
   testerr += loctesterr;
 }
 
-void stestMatrixFloat(uint& testnum, uint& testerr) {
-  uint loctestnum = 0, loctesterr = 0;
+void stestMatrixFloat(unsigned int& testnum, unsigned int& testerr) {
+  unsigned int loctestnum = 0, loctesterr = 0;
   cout << endl << "Begin of Matrix<double> Test" << endl;
   try {
     lasd::MatrixVec<double> matvec(4, 3);
@@ -283,8 +283,8 @@ void stestMatrixFloat(uint& testnum, uint& testerr) {
 }
 
 template <typename Mat>
-void stestMatrixString(Mat& mat, uint& testnum, uint& testerr) {
-  uint loctestnum = 0, loctesterr = 0;
+void stestMatrixString(Mat& mat, unsigned int& testnum, unsigned int& testerr) {
+  unsigned int loctestnum = 0, loctesterr = 0;
   try {
 
     SetCell(loctestnum, loctesterr, mat, true, 0, 0, string("| A"));
@@ -323,8 +323,8 @@ void stestMatrixString(Mat& mat, uint& testnum, uint& testerr) {
   testerr += loctesterr;
 }
 
-void stestMatrixString(uint& testnum, uint& testerr) {
-  uint loctestnum = 0, loctesterr = 0;
+void stestMatrixString(unsigned int& testnum, unsigned int& testerr) {
+  unsigned int loctestnum = 0, loctesterr = 0;
   cout << endl << "Begin of Matrix<string> Test" << endl;
   try {
     lasd::MatrixVec<string> matvec(3, 3);
@@ -346,7 +346,7 @@ void stestMatrixString(uint& testnum, uint& testerr) {
 /* ************************************************************************** */
 
 void testSimpleExercise5() {
-  uint testnum = 0, testerr = 0;
+  unsigned int testnum = 0, testerr = 0;
   stestMatrixInt(testnum, testerr);
   stestMatrixFloat(testnum, testerr);
   stestMatrixString(testnum, testerr);

@@ -7,7 +7,7 @@
 /* ************************************************************************** */
 
 template <typename Mat>
-void EqualMatrix(uint& testnum, uint& testerr, const Mat& mat1, const Mat& mat2) {
+void EqualMatrix(unsigned int& testnum, unsigned int& testerr, const Mat& mat1, const Mat& mat2) {
   bool tst;
   testnum++;
   try {
@@ -17,11 +17,11 @@ void EqualMatrix(uint& testnum, uint& testerr, const Mat& mat1, const Mat& mat2)
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
+  testerr += (1 - (unsigned int) tst);
 }
 
 template <typename Mat>
-void NonEqualMatrix(uint& testnum, uint& testerr, const Mat& mat1, const Mat& mat2) {
+void NonEqualMatrix(unsigned int& testnum, unsigned int& testerr, const Mat& mat1, const Mat& mat2) {
   bool tst;
   testnum++;
   try {
@@ -31,13 +31,13 @@ void NonEqualMatrix(uint& testnum, uint& testerr, const Mat& mat1, const Mat& ma
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
+  testerr += (1 - (unsigned int) tst);
 }
 
 /* ************************************************************************** */
 
 template <typename Data>
-void GetRowNumber(uint& testnum, uint& testerr, const lasd::Matrix<Data>& mat, bool chk, ulong rows) {
+void GetRowNumber(unsigned int& testnum, unsigned int& testerr, const lasd::Matrix<Data>& mat, bool chk, unsigned long rows) {
   bool tst;
   testnum++;
   try {
@@ -47,11 +47,11 @@ void GetRowNumber(uint& testnum, uint& testerr, const lasd::Matrix<Data>& mat, b
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
+  testerr += (1 - (unsigned int) tst);
 }
 
 template <typename Data>
-void SetRowNumber(uint& testnum, uint& testerr, lasd::Matrix<Data>& mat, bool chk, ulong rows) {
+void SetRowNumber(unsigned int& testnum, unsigned int& testerr, lasd::Matrix<Data>& mat, bool chk, unsigned long rows) {
   bool tst;
   testnum++;
   try {
@@ -62,11 +62,11 @@ void SetRowNumber(uint& testnum, uint& testerr, lasd::Matrix<Data>& mat, bool ch
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
+  testerr += (1 - (unsigned int) tst);
 }
 
 template <typename Data>
-void GetColumnNumber(uint& testnum, uint& testerr, const lasd::Matrix<Data>& mat, bool chk, ulong cols) {
+void GetColumnNumber(unsigned int& testnum, unsigned int& testerr, const lasd::Matrix<Data>& mat, bool chk, unsigned long cols) {
   bool tst;
   testnum++;
   try {
@@ -76,11 +76,11 @@ void GetColumnNumber(uint& testnum, uint& testerr, const lasd::Matrix<Data>& mat
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
+  testerr += (1 - (unsigned int) tst);
 }
 
 template <typename Data>
-void SetColumnNumber(uint& testnum, uint& testerr, lasd::Matrix<Data>& mat, bool chk, ulong cols) {
+void SetColumnNumber(unsigned int& testnum, unsigned int& testerr, lasd::Matrix<Data>& mat, bool chk, unsigned long cols) {
   bool tst;
   testnum++;
   try {
@@ -91,11 +91,11 @@ void SetColumnNumber(uint& testnum, uint& testerr, lasd::Matrix<Data>& mat, bool
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
+  testerr += (1 - (unsigned int) tst);
 }
 
 template <typename Data>
-void ExistsCell(uint& testnum, uint& testerr, const lasd::Matrix<Data>& mat, bool chk, ulong row, ulong col) {
+void ExistsCell(unsigned int& testnum, unsigned int& testerr, const lasd::Matrix<Data>& mat, bool chk, unsigned long row, unsigned long col) {
   bool tst;
   testnum++;
   try {
@@ -105,11 +105,11 @@ void ExistsCell(uint& testnum, uint& testerr, const lasd::Matrix<Data>& mat, boo
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
+  testerr += (1 - (unsigned int) tst);
 }
 
 template <typename Data>
-void GetCell(uint& testnum, uint& testerr, const lasd::Matrix<Data>& mat, bool chk, ulong row, ulong col, const Data& val) {
+void GetCell(unsigned int& testnum, unsigned int& testerr, const lasd::Matrix<Data>& mat, bool chk, unsigned long row, unsigned long col, const Data& val) {
   bool tst;
   testnum++;
   try {
@@ -123,11 +123,11 @@ void GetCell(uint& testnum, uint& testerr, const lasd::Matrix<Data>& mat, bool c
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
+  testerr += (1 - (unsigned int) tst);
 }
 
 template <typename Data>
-void SetCell(uint& testnum, uint& testerr, lasd::Matrix<Data>& mat, bool chk, ulong row, ulong col, const Data& val) {
+void SetCell(unsigned int& testnum, unsigned int& testerr, lasd::Matrix<Data>& mat, bool chk, unsigned long row, unsigned long col, const Data& val) {
   bool tst;
   testnum++;
   try {
@@ -142,7 +142,7 @@ void SetCell(uint& testnum, uint& testerr, lasd::Matrix<Data>& mat, bool chk, ul
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
+  testerr += (1 - (unsigned int) tst);
 }
 
 /* ************************************************************************** */
