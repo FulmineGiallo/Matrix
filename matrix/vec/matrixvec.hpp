@@ -14,7 +14,7 @@ namespace lasd {
 /* ************************************************************************** */
 //Row Major
 template <typename Data>
-class MatrixVec : virtual public Matrix<Data>, protected Vector<Data>
+class MatrixVec : virtual public Matrix<Data>, virtual protected Vector<Data>
 {
 
 private:
@@ -23,80 +23,80 @@ private:
 
 protected:
 
-  // using Matrix<Data>::???;
+  using Matrix<Data>::row;
+  using Matrix<Data>::column;
 
-  // ...
 
 public:
 
   // Default constructor
-  MatrixVec(); //Matrice vuota, ROW = 0, COLUMN = 0
+  MatrixVec() = default; //Matrice vuota, ROW = 0, COLUMN = 0
 
   /* ************************************************************************ */
 
   // Specific constructors
-  MatrixVec(int row, int column); // A matrix of some specified dimension
+  MatrixVec(unsigned long row, unsigned long column); // A matrix of some specified dimension
 
   /* ************************************************************************ */
   //Possibile utilizzare il vettore da qui a
     // Copy constructor
-    // MatrixVec(argument) specifiers;
+    MatrixVec(const MatrixVec&);
 
     // Move constructor
-    // MatrixVec(argument) specifiers;
+    MatrixVec(MatrixVec&&) noexcept;
 
     /* ************************************************************************ */
 
     // Destructor
-    // ~MatrixVec() specifiers;
+    ~MatrixVec() = default;
 
     /* ************************************************************************ */
 
     // Copy assignment
-    // type operator=(argument) specifiers;
+    MatrixVec& operator=(const MatrixVec&);
 
     // Move assignment
-    // type operator=(argument) specifiers;
+    MatrixVec& operator=(MatrixVec&&) noexcept;
 
     /* ************************************************************************ */
 
     // Comparison operators
-    // type operator==(argument) specifiers;
-    // type operator!=(argument) specifiers;
+    bool operator==(const MatrixVec&) const noexcept;
+    bool operator!=(const MatrixVec&) const noexcept;
 
   // qui.
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Matrix)
 
-  // type RowResize() specifiers; // Override Matrix member     //Resize del vettore
-  // type ColumnResize() specifiers; // Override Matrix member  //Resize del vettore, attenzione dopo il resize, la matrice non contiene i dati nell'ordine giusto
+  void RowResize() override; // Override Matrix member     //Resize del vettore
+  void ColumnResize() override; // Override Matrix member  //Resize del vettore, attenzione dopo il resize, la matrice non contiene i dati nell'ordine giusto
 
   bool ExistsCell() noexcept override; // Override Matrix member (should not throw exceptions)
 
 
-  // const Data& operator()() const override; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)
-  // Data& operator()() override; // Override Matrix member (immutable access to the element; throw out_of_range when out of range and length_error when not present)
+  const Data& operator()() const override; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)
+  Data& operator()() override; // Override Matrix member (immutable access to the element; throw out_of_range when out of range and length_error when not present)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Container)
   // Già dati dal vettore, fare using senza override se estendiamo vector<Data>
-    // type Clear() specifiers; // Override Container member // Chiamare prima Clear() e poi Resettare ROW e COLUMN = 0
+    void Clear() override; // Override Container member // Chiamare prima Clear() e poi Resettare ROW e COLUMN = 0
 
     /* ************************************************************************ */
 
     // Specific member functions (inherited from MappableContainer)
 
-    // type MapPreOrder(arguments) specifiers; // Override MappableContainer member
-    // type MapPostOrder(arguments) specifiers; // Override MappableContainer member
+    using Vector<Data>::MapPreOrder; // Override MappableContainer member
+    using Vector<Data>::MapPostOrder; // Override MappableContainer member
 
     /* ************************************************************************ */
 
     // Specific member functions (inherited from FoldableContainer)
 
-    // type FoldPreOrder(arguments) specifiers; // Override FoldableContainer member
-    // type FoldPostOrder(arguments) specifiers; // Override FoldableContainer member
+    using Vector<Data>::FoldPreOrder; // Override FoldableContainer member
+    using Vector<Data>::FoldPostOrder; // Override FoldableContainer member
  // fino a qui.
 };
 
