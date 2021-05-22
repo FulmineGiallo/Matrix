@@ -41,6 +41,14 @@ bool MatrixVec<Data>::operator!=(const MatrixVec& matrice)
 {
   return Vector<Data>::operator!=(matrice);
 }
+
+template <typename Data>
+void MatrixVec<Data>::Clear()
+{
+  Vector<Data>::Clear();
+  row = 0;
+  column = 0;
+}
 /* ************************************************************************** */
 
 }
