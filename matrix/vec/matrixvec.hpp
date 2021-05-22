@@ -69,10 +69,10 @@ public:
 
   // Specific member functions (inherited from Matrix)
 
-  void RowResize() override; // Override Matrix member     //Resize del vettore
+  void RowResize(unsigned long) override; // Override Matrix member     //Resize del vettore
   void ColumnResize() override; // Override Matrix member  //Resize del vettore, attenzione dopo il resize, la matrice non contiene i dati nell'ordine giusto
 
-  bool ExistsCell() noexcept override; // Override Matrix member (should not throw exceptions)
+  bool ExistsCell(unsigned long,unsigned long) noexcept override; // Override Matrix member (should not throw exceptions)
 
 
   const Data& operator()() const override; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)

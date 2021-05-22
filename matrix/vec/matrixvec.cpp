@@ -49,6 +49,49 @@ void MatrixVec<Data>::Clear()
   row = 0;
   column = 0;
 }
+
+template <typename Data>
+void MatrixVec<Data>::RowResize(unsigned long resizeRow)
+{
+  Vector<Data>::Resize(resizeRow * column);
+}
+
+template <typename Data>
+void MatrixVec<Data>::ColumnResize(unsigned long resizeColumn)
+{
+  if(resizeColumn < column)
+  {
+    Vector<Data> vec(row * resizeColumn);
+    unsigned long j = 0;
+    unsigned long k = 0;
+    for(unsigned long i = 0; i < row * column; i++, k++)
+    {
+      if( j == newColumn )
+      {
+        i = i + (column - newColumn);
+        j = 0;
+      }
+      if( i < row * column)
+        vec[k] = this[i];
+      j++;
+    }
+    std::swap(this.Element, vec.Elements);
+    vec.Clear();
+  }
+  if(resizeColumn > column)
+  {
+
+  }
+}
+
+template <typename Data>
+bool MatrixVec<Data>::ExistsCell(unsigned long cellRow, unsigned long cellColumn)
+{
+  if(cellRow <= row - 1 && cellColumn <= column - 1)
+    return true;
+  else
+    return false;
+}
 /* ************************************************************************** */
 
 }
