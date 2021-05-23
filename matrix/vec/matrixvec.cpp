@@ -11,33 +11,33 @@ MatrixVec<Data>::MatrixVec(unsigned long row, unsigned long column)
 
 //Copy Constructor
 template <typename Data>
-MatrixVec<Data>::MatrixVec(const MatrixVec& matrice) : Vector<Data>::Vector(matrice) {}
+MatrixVec<Data>::MatrixVec(const MatrixVec<Data>& matrice) : Vector<Data>::Vector(matrice) {}
 
 //Move constructor
 template <typename Data>
-MatrixVec<Data>::MatrixVec(MatrixVec&& matrice) noexcept : Vector<Data>::Vector(std::move(matrice)) {}
+MatrixVec<Data>::MatrixVec(MatrixVec<Data>&& matrice) noexcept : Vector<Data>::Vector(std::move(matrice)) {}
 
 template <typename Data>
-MatrixVec& MatrixVec<Data>::operator=(const MatrixVec& matrice)
+MatrixVec<Data>& MatrixVec<Data>::operator=(const MatrixVec<Data>& matrice)
 {
   Vector<Data>::operator=(matrice);
   return *this;
 }
 template <typename Data>
-MatrixVec& MatrixVec<Data>::operator=(MatrixVec&& matrice) noexcept
+MatrixVec<Data>& MatrixVec<Data>::operator=(MatrixVec<Data>&& matrice) noexcept
 {
   Vector<Data>::operator=(std::move(matrice));
   return *this;
 }
 
 template <typename Data>
-bool MatrixVec<Data>::operator==(const MatrixVec& matrice)
+bool MatrixVec<Data>::operator==(const MatrixVec<Data>& matrice) const noexcept
 {
   return Vector<Data>::operator==(matrice);
 }
 
 template <typename Data>
-bool MatrixVec<Data>::operator!=(const MatrixVec& matrice)
+bool MatrixVec<Data>::operator!=(const MatrixVec<Data>& matrice) const noexcept
 {
   return Vector<Data>::operator!=(matrice);
 }
@@ -66,9 +66,9 @@ void MatrixVec<Data>::ColumnResize(unsigned long resizeColumn)
     unsigned long k = 0;
     for(unsigned long i = 0; i < row * column; i++, k++)
     {
-      if( j == newColumn )
+      if( j == resizeColumn )
       {
-        i = i + (column - newColumn);
+        i = i + (column - resizeColumn);
         j = 0;
       }
       if( i < row * column)
@@ -80,12 +80,30 @@ void MatrixVec<Data>::ColumnResize(unsigned long resizeColumn)
   }
   if(resizeColumn > column)
   {
+    Vector<Data> vec(row * resizeColumn);
+    unsigned long j = 0;
+    unsigned long i = 0;
+    for(int i = 0; i < vec.Size(); i++)
+      vec[i] = {};
 
+    for(int k = 0; k < row * resizeColumn; i++, k++)
+    {
+      if(j == column)
+      {
+        i = i + (resizeColumn - column);
+        j = 0;
+      }
+      if(i < row * resizeColumn)
+        vec[i] = this[k];
+      j++;
+    }
+    std::swap(this.Element, vec.Elements);
+    vec.Clear();
   }
 }
 
 template <typename Data>
-bool MatrixVec<Data>::ExistsCell(unsigned long cellRow, unsigned long cellColumn)
+bool MatrixVec<Data>::ExistsCell(unsigned long cellRow, unsigned long cellColumn) noexcept
 {
   if(cellRow <= row - 1 && cellColumn <= column - 1)
     return true;

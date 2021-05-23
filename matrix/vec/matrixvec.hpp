@@ -70,7 +70,7 @@ public:
   // Specific member functions (inherited from Matrix)
 
   void RowResize(unsigned long) override; // Override Matrix member     //Resize del vettore
-  void ColumnResize() override; // Override Matrix member  //Resize del vettore, attenzione dopo il resize, la matrice non contiene i dati nell'ordine giusto
+  void ColumnResize(unsigned long) override; // Override Matrix member  //Resize del vettore, attenzione dopo il resize, la matrice non contiene i dati nell'ordine giusto
 
   bool ExistsCell(unsigned long,unsigned long) noexcept override; // Override Matrix member (should not throw exceptions)
 
