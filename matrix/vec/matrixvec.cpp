@@ -4,16 +4,20 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-MatrixVec<Data>::MatrixVec(unsigned long row, unsigned long column)
+MatrixVec<Data>::MatrixVec(unsigned long newRow, unsigned long newColumn)
 {
-  Vector<Data>::Resize(row*column);
+
+  Vector<Data>::Resize(newRow * newColumn);
+  row    = newRow;
+  column = newColumn;
+
 }
 
 //Copy Constructor
 template <typename Data>
 MatrixVec<Data>::MatrixVec(const MatrixVec<Data>& matrice) : Vector<Data>::Vector(matrice)
 {
-  row = matrice.row;
+  row    = matrice.row;
   column = matrice.column;
 }
 
@@ -21,15 +25,15 @@ MatrixVec<Data>::MatrixVec(const MatrixVec<Data>& matrice) : Vector<Data>::Vecto
 template <typename Data>
 MatrixVec<Data>::MatrixVec(MatrixVec<Data>&& matrice) noexcept : Vector<Data>::Vector(std::move(matrice))
 {
-  row = matrice.row;
-  column = matrice.column;
+  std::swap(row, matrice.row);
+  std::swap(column, matrice.column);
 }
 
 template <typename Data>
 MatrixVec<Data>& MatrixVec<Data>::operator=(const MatrixVec<Data>& matrice)
 {
   Vector<Data>::operator=(matrice);
-  row = matrice.row;
+  row    = matrice.row;
   column = matrice.column;
   return *this;
 }
@@ -37,8 +41,8 @@ template <typename Data>
 MatrixVec<Data>& MatrixVec<Data>::operator=(MatrixVec<Data>&& matrice) noexcept
 {
   Vector<Data>::operator=(std::move(matrice));
-  row = matrice.row;
-  column = matrice.column;
+  std::swap(row, matrice.row);
+  std::swap(column, matrice.column);
   return *this;
 }
 
@@ -58,14 +62,17 @@ template <typename Data>
 void MatrixVec<Data>::Clear()
 {
   Vector<Data>::Clear();
-  row = 0;
-  column = 0;
+  row    = 1;
+  column = 1;
+  size   = 0;
 }
 
 template <typename Data>
 void MatrixVec<Data>::RowResize(unsigned long resizeRow)
 {
   Vector<Data>::Resize(resizeRow * column);
+  row = resizeRow;
+
 }
 
 template <typename Data>
@@ -109,15 +116,18 @@ void MatrixVec<Data>::ColumnResize(unsigned long resizeColumn)
         vec[i] = Elements[k];
       j++;
     }
+
     Vector<Data>::operator=(vec);
     vec.Clear();
   }
+  column = resizeColumn;
+
 }
 
 template <typename Data>
 bool MatrixVec<Data>::ExistsCell(const unsigned long cellRow, const unsigned long cellColumn) const noexcept
 {
-  if(cellRow <= row - 1 && cellColumn <= column - 1)
+  if( ( (cellRow * column) + cellColumn ) < ( row * column ))
     return true;
   else
     return false;
@@ -128,13 +138,20 @@ Data& MatrixVec<Data>::operator()(const unsigned long r, const unsigned long c)
 {
   return const_cast<Data&>(static_cast<const MatrixVec<Data>*>(this)->operator()(r, c));
 }
+
 template <typename Data>
 const Data& MatrixVec<Data>::operator()(const unsigned long r, const unsigned long c) const
 {
   if(ExistsCell(r,c))
     return Elements[(r * column) + c];
   else
-    throw std::out_of_range("Non è possibile accedere a questa cella, non esiste nella matrice.");
+    throw std::out_of_range("Non e' possibile accedere a questa cella, non esiste nella matrice.");
+}
+
+template<typename Data>
+MatrixVec<Data>::~MatrixVec()
+{
+  Clear();
 }
 /* ************************************************************************** */
 

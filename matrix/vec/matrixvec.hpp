@@ -26,6 +26,7 @@ protected:
   using Matrix<Data>::row;
   using Matrix<Data>::column;
   using Vector<Data>::Elements;
+  using Vector<Data>::size;
 
 public:
 
@@ -48,7 +49,7 @@ public:
     /* ************************************************************************ */
 
     // Destructor
-    ~MatrixVec() = default;
+    ~MatrixVec();
 
     /* ************************************************************************ */
 
