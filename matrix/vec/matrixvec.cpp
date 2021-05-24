@@ -11,22 +11,34 @@ MatrixVec<Data>::MatrixVec(unsigned long row, unsigned long column)
 
 //Copy Constructor
 template <typename Data>
-MatrixVec<Data>::MatrixVec(const MatrixVec<Data>& matrice) : Vector<Data>::Vector(matrice) {}
+MatrixVec<Data>::MatrixVec(const MatrixVec<Data>& matrice) : Vector<Data>::Vector(matrice)
+{
+  row = matrice.row;
+  column = matrice.column;
+}
 
 //Move constructor
 template <typename Data>
-MatrixVec<Data>::MatrixVec(MatrixVec<Data>&& matrice) noexcept : Vector<Data>::Vector(std::move(matrice)) {}
+MatrixVec<Data>::MatrixVec(MatrixVec<Data>&& matrice) noexcept : Vector<Data>::Vector(std::move(matrice))
+{
+  row = matrice.row;
+  column = matrice.column;
+}
 
 template <typename Data>
 MatrixVec<Data>& MatrixVec<Data>::operator=(const MatrixVec<Data>& matrice)
 {
   Vector<Data>::operator=(matrice);
+  row = matrice.row;
+  column = matrice.column;
   return *this;
 }
 template <typename Data>
 MatrixVec<Data>& MatrixVec<Data>::operator=(MatrixVec<Data>&& matrice) noexcept
 {
   Vector<Data>::operator=(std::move(matrice));
+  row = matrice.row;
+  column = matrice.column;
   return *this;
 }
 
