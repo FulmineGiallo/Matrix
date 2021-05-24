@@ -84,10 +84,10 @@ void MatrixVec<Data>::ColumnResize(unsigned long resizeColumn)
         j = 0;
       }
       if( i < row * column)
-        vec[k] = this[i];
+        vec[k] = Elements[i];
       j++;
     }
-    std::swap(this.Element, vec.Elements);
+    Vector<Data>::operator=(vec);
     vec.Clear();
   }
   if(resizeColumn > column)
@@ -106,21 +106,35 @@ void MatrixVec<Data>::ColumnResize(unsigned long resizeColumn)
         j = 0;
       }
       if(i < row * resizeColumn)
-        vec[i] = this[k];
+        vec[i] = Elements[k];
       j++;
     }
-    std::swap(this.Element, vec.Elements);
+    Vector<Data>::operator=(vec);
     vec.Clear();
   }
 }
 
 template <typename Data>
-bool MatrixVec<Data>::ExistsCell(unsigned long cellRow, unsigned long cellColumn) noexcept
+bool MatrixVec<Data>::ExistsCell(const unsigned long cellRow, const unsigned long cellColumn) const noexcept
 {
   if(cellRow <= row - 1 && cellColumn <= column - 1)
     return true;
   else
     return false;
+}
+
+template <typename Data>
+Data& MatrixVec<Data>::operator()(const unsigned long r, const unsigned long c)
+{
+  return const_cast<Data&>(static_cast<const MatrixVec<Data>*>(this)->operator()(r, c));
+}
+template <typename Data>
+const Data& MatrixVec<Data>::operator()(const unsigned long r, const unsigned long c) const
+{
+  if(ExistsCell(r,c))
+    return Elements[(r * column) + c];
+  else
+    throw std::out_of_range("Non è possibile accedere a questa cella, non esiste nella matrice.");
 }
 /* ************************************************************************** */
 

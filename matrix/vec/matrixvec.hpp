@@ -25,7 +25,7 @@ protected:
 
   using Matrix<Data>::row;
   using Matrix<Data>::column;
-
+  using Vector<Data>::Elements;
 
 public:
 
@@ -72,11 +72,11 @@ public:
   void RowResize(unsigned long) override; // Override Matrix member     //Resize del vettore
   void ColumnResize(unsigned long) override; // Override Matrix member  //Resize del vettore, attenzione dopo il resize, la matrice non contiene i dati nell'ordine giusto
 
-  bool ExistsCell(unsigned long,unsigned long) noexcept override; // Override Matrix member (should not throw exceptions)
+  bool ExistsCell(const unsigned long, const unsigned long) const noexcept override; // Override Matrix member (should not throw exceptions)
 
 
-  const Data& operator()() const override; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)
-  Data& operator()() override; // Override Matrix member (immutable access to the element; throw out_of_range when out of range and length_error when not present)
+  const Data& operator()(const unsigned long r, const unsigned long c) const override; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)
+  Data& operator()(const unsigned long r, const unsigned long c) override; // Override Matrix member (immutable access to the element; throw out_of_range when out of range and length_error when not present)
 
   /* ************************************************************************ */
 

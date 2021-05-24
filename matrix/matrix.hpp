@@ -54,11 +54,11 @@ public:
   virtual void RowResize(unsigned long) = 0;
   virtual void ColumnResize(unsigned long) = 0;
 
-  virtual bool ExistsCell(unsigned long row, unsigned long column) noexcept = 0; // (concrete function should not throw exceptions) // Se va fuori alle ROW/COLUMN direttamente false. (IF)
+  virtual bool ExistsCell(const unsigned long row, const unsigned long column) const noexcept = 0; // (concrete function should not throw exceptions) // Se va fuori alle ROW/COLUMN direttamente false. (IF)
   //Se esiste la cella, è tutto uno con il dato, se esiste una cella esiste il dato in essa.
 
-  Data& operator()(unsigned long row, unsigned long column) = 0; // Mutable access to the element (concrete function should throw exceptions only when out of range)
-  const Data& operator()(unsigned long row, unsigned long column) const = 0; // Immutable access to the element (concrete function should throw exceptions when not present)
+  virtual Data& operator()(const unsigned long r, const unsigned long c) = 0; // Mutable access to the element (concrete function should throw exceptions only when out of range)
+  virtual const Data& operator()(const unsigned long r, const unsigned long c) const = 0; // Immutable access to the element (concrete function should throw exceptions when not present)
 
 };
 
