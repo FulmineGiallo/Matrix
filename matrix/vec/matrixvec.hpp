@@ -31,7 +31,7 @@ protected:
 public:
 
   // Default constructor
-  MatrixVec() = default; //Matrice vuota, ROW = 0, COLUMN = 0
+  MatrixVec(); //Matrice vuota, ROW = 0, COLUMN = 0
 
   /* ************************************************************************ */
 
