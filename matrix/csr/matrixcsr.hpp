@@ -17,7 +17,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class MatrixCSR : virtual public Matrix<Data>, virtual protected List<Data>
+class MatrixCSR : virtual public Matrix<Data>, virtual protected List<std::pair<unsigned long, Data>>
 {
 
 private:
@@ -26,20 +26,16 @@ private:
 
 protected:
 
-  using Matrix<Data>::row;
-  using Matrix<Data>::column;
-  using List<Data>::testa;
-  using List<Data>::coda;
-  using typename List<Data>::Node;
-  Vector<Node*> vector;
+  using Matrix<Data>::row = 0;
+  using Matrix<Data>::column = 0;
+  using List<std::pair<unsigned long, Data>>::testa;
+  using typename List<std::pair<unsigned long, Data>>::Node;
+  Vector<Node**> vector;
   //Vector per le righe puntatori
   //Colonne e dati tramite List, meglio ereditarla.
-  pair<unsigned long, Data> pairColonna; // campo element di Node
   /*
-  vector[i] = new Node();
-  vector[i].element = pairColonna;
-  vector[i].next = pairColonna.first;
-  pairColonna(1, 100);
+  Quando creiamo un nuovo nodo --> Node nuovo = new Node(pair);
+
   */
 
 
@@ -111,7 +107,7 @@ public:
   /* ************************************************************************ */
 
   // Specific member functions (inherited from FoldableContainer)
-  using typename MappableContainer<Data>::FoldFunctor;
+  using typename FoldableContainer<Data>::FoldFunctor;
   void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override MappableContainer member
   void FoldPostOrder(const FoldFunctor,const void*, void*) const override; // Override MappableContainer member
 

@@ -114,7 +114,6 @@ void MatrixVec<Data>::ColumnResize(unsigned long resizeColumn)
     }
     if(resizeColumn > column)
     {
-      std::cout << "Entro qui" << std::endl;
       Vector<Data> vec(row * resizeColumn);
       unsigned long j = 0;
       unsigned long i = 0;
