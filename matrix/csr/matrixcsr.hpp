@@ -26,10 +26,11 @@ private:
 
 protected:
 
-  using Matrix<Data>::row = 0;
-  using Matrix<Data>::column = 0;
+  using Matrix<Data>::row;
+  using Matrix<Data>::column;
   using List<std::pair<unsigned long, Data>>::testa;
   using typename List<std::pair<unsigned long, Data>>::Node;
+  using List<std::pair<unsigned long, Data>>::size;
   Vector<Node**> vector;
   //Vector per le righe puntatori
   //Colonne e dati tramite List, meglio ereditarla.

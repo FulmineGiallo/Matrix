@@ -89,7 +89,6 @@ void MatrixVec<Data>::RowResize(unsigned long resizeRow)
 template <typename Data>
 void MatrixVec<Data>::ColumnResize(unsigned long resizeColumn)
 {
-
   if(resizeColumn != 0 && column != 0)
   {
     if(resizeColumn < column)
