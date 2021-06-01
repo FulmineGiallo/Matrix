@@ -30,14 +30,9 @@ protected:
   using Matrix<Data>::column;
   using List<std::pair<unsigned long, Data>>::testa;
   using typename List<std::pair<unsigned long, Data>>::Node;
-  using List<std::pair<unsigned long, Data>>::size;
+  using List<std::pair<unsigned long, Data>>::size; //Size effettiva della matrice, numero di elementi presenti in essa.
   Vector<Node**> vector;
-  //Vector per le righe puntatori
-  //Colonne e dati tramite List, meglio ereditarla.
-  /*
-  Quando creiamo un nuovo nodo --> Node nuovo = new Node(pair);
-
-  */
+  
 
 
 public:

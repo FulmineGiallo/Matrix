@@ -264,14 +264,14 @@ void List<Data>::MapPreOrder(const MapFunctor map, void* support)
     tmp = tmp->next;
   }
 }
-template<typename Data>
-void List<Data>::MapPostOrder(const MapFunctor map, void* support)
-{
-  for(unsigned long i = size; i > 0; i--)
-  {
-    map((*this)[i - 1], support);
-  }
-}
+// template<typename Data>
+// void List<Data>::MapPostOrder(const MapFunctor map, void* support)
+// {
+//   for(unsigned long i = size; i > 0; i--)
+//   {
+//     map((*this)[i - 1], support);
+//   }
+// }
 
 template<typename Data>
 void List<Data>::FoldPreOrder(const FoldFunctor fold, const void* accum, void* support) const
@@ -284,12 +284,45 @@ void List<Data>::FoldPreOrder(const FoldFunctor fold, const void* accum, void* s
   }
 }
 
+// template<typename Data>
+// void List<Data>::FoldPostOrder(const FoldFunctor fold, const void* accum, void* support) const
+// {
+//   for(unsigned long i = size; i > 0; i--)
+//   {
+//     fold((*this)[i - 1], accum, support);
+//   }
+// }
+// Funzione di map post-order
 template<typename Data>
-void List<Data>::FoldPostOrder(const FoldFunctor fold, const void* accum, void* support) const
-{
-  for(unsigned long i = size; i > 0; i--)
-  {
-    fold((*this)[i - 1], accum, support);
+void List<Data>::MapPostOrder(const MapFunctor map, void* support){
+  // for(int i = size; i > 0; i--){
+  //   map((*this)[i - 1], support);
+  // }
+  MapPostOrder(testa, map, support);
+}
+// Funzione di fold post-order
+template<typename Data>
+void List<Data>::FoldPostOrder(const FoldFunctor fold, const void* accum, void* support) const{
+  // for(unsigned long i = size; i > 0; i--){
+  //   fold((*this)[i - 1], accum, support);
+  // }
+  FoldPostOrder(testa, fold, accum, support);
+}
+// Aux Fun MapPostOrder
+template<typename Data>
+void List<Data>::MapPostOrder(Node* node, const MapFunctor fun, void* v){
+  if(node!=nullptr){
+    MapPostOrder(node->next, fun, v);
+    fun(node->element, v);
+  }
+}
+
+// Aux Fun FoldPostOrder
+template<typename Data>
+void List<Data>::FoldPostOrder(Node* node, const FoldFunctor fun, const void* v1, void* v2) const{
+  if(node!=nullptr){
+    FoldPostOrder(node->next, fun, v1, v2);
+    fun(node->element, v1, v2);
   }
 }
 /* ************************************************************************** */

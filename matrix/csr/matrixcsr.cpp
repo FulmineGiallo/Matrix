@@ -94,29 +94,46 @@ void MatrixCSR<Data>::Clear()
 template <typename Data>
 void MatrixCSR<Data>::RowResize(unsigned long newRow)
 {
-  if(newRow < row){
-      Node* tmp = *vector[newRow];
+  if(newRow == 0)
+  {
+    unsigned long app = column;
+    Clear();
+    column = app;
+  }
+  else
+  {
+    if(newRow < row)
+    {
+      Node** tmp = Nodes[newRow];
       Node* current = nullptr;
-      while(tmp != nullptr){
-        current = tmp;
-        tmp = tmp->next;
-        delete current;
+      current = *tmp;
+      *tmp = nullptr;
+      Node* tmp2;
+      while(current != nullptr)
+      {
+        tmp2 = current;
+        current = current->next;
+        delete tmp2;
       }
       row = newRow;
-      vector.Resize(row + 1);
+      Nodes.Resize(row + 1);
     }
-    if(newRow > row){
-      if(row == 0){
-          vector.Resize(newRow + 1);
-          for(unsigned long i = row; i < newRow + 1; i++) vector[i] = &testa;
-          row = newRow;
+    if(newRow > row)
+    {
+      if(row == 0)
+      {
+        Nodes.Resize(newRow + 1);
+        for(unsigned long i = row; i < newRow + 1; i++) Nodes[i] = &testa;
+        row = newRow;
       }
-      else{
-        vector.Resize(newRow + 1);
-        for(unsigned long i = row; i < newRow; i++) vector[i+1] = vector[i];
+      else
+      {
+        Nodes.Resize(newRow + 1);
+        for(unsigned long i = row; i < newRow; i++) Nodes[i+1] = Nodes[i];
         row = newRow;
       }
     }
+  }
 }
 
 template <typename Data>
@@ -139,14 +156,15 @@ void MatrixCSR<Data>::ColumnResize(unsigned long resizeColumn)
 template <typename Data>
 bool MatrixCSR<Data>::ExistsCell(const unsigned long cellRow, const unsigned long cellColumn) const noexcept
 {
-  if ((cellRow < row) && (cellColumn < column)){
+  if((cellRow < row) && (cellColumn < column))
+  {
      Node** ptr = vector[cellRow];
      while(ptr != vector[cellRow + 1])
      {
        Node& nod = **ptr;
-       if(nod.element.first == cellColumn){
+       if(nod.element.first == cellColumn)
          return true;
-       }
+
        ptr = &(nod.next);
      }
    }
@@ -157,10 +175,12 @@ bool MatrixCSR<Data>::ExistsCell(const unsigned long cellRow, const unsigned lon
 template<typename Data>
 Data& MatrixCSR<Data>::operator()(const unsigned long currRow, const unsigned long currCol)
 {
-  if((currRow < row) && (currCol < column)){
+  if((currRow < row) && (currCol < column))
+  {
         Node** pointer = vector[currRow];
         Node** ext = vector[currRow + 1];
-        while((pointer != ext)  && (*pointer)->element.first <= currCol){
+        while((pointer != ext)  && (*pointer)->element.first <= currCol)
+        {
             Node& node = **pointer;
             if(node.element.first == currCol){
                 return node.element.second;
@@ -182,7 +202,9 @@ Data& MatrixCSR<Data>::operator()(const unsigned long currRow, const unsigned lo
             vector[i] = &((*pointer)->next);
         }
         return nodo->element.second;
-    }else{
+    }
+    else
+    {
         throw std::out_of_range("Out of range error");
     }
 
@@ -203,9 +225,9 @@ const Data& MatrixCSR<Data>::operator()(const unsigned long r, const unsigned lo
     while(ptr != vector[r + 1])
     {
       Node& nod = **ptr;
-      if(nod.element.first == c){
+      if(nod.element.first == c)
         return nod.element.second;
-      }
+
       ptr = &(nod.next);
     }
     throw std::length_error("Cella Non esiste!");
