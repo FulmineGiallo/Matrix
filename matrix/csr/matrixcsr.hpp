@@ -32,7 +32,7 @@ protected:
   using typename List<std::pair<unsigned long, Data>>::Node;
   using List<std::pair<unsigned long, Data>>::size; //Size effettiva della matrice, numero di elementi presenti in essa.
   Vector<Node**> vector;
-  
+
 
 
 public:
