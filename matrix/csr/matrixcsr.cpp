@@ -12,9 +12,9 @@ MatrixCSR<Data>::MatrixCSR(const unsigned long r, const unsigned long c)
   // for(unsigned long i = 0; i <= r ; ++i)
   //   vector[i] = &testa;
   vector.Resize(r + 1);
-  for(unsigned long i = 0; i <= r; i++){
+  for(unsigned long i = 0; i <= r; i++)
     vector[i] = &testa;
-  }
+
   column = c;
   row = r;
 }
@@ -23,7 +23,6 @@ MatrixCSR<Data>::MatrixCSR(const unsigned long r, const unsigned long c)
 template <typename Data>
 MatrixCSR<Data>::MatrixCSR(const MatrixCSR<Data>& matrice) : MatrixCSR(matrice.row, matrice.column)
 {
-  /* scorrere vecchia matrice, e fare la nuova matrice per inserimento */
   for(unsigned long i = 0; i < row; i++)
   {
     for(Node** ptr = matrice.vector[i]; ptr != matrice.vector[i + 1]; ptr = &((*ptr)->next))
@@ -36,33 +35,53 @@ MatrixCSR<Data>::MatrixCSR(const MatrixCSR<Data>& matrice) : MatrixCSR(matrice.r
 
 //Move constructor
 template <typename Data>
-MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& matrice) noexcept
+MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& matrice) noexcept : MatrixCSR()
 {
+  std::swap(size, matrice.size);
+  std::swap(testa, matrice.testa);
   std::swap(row, matrice.row);
   std::swap(column, matrice.column);
   std::swap(vector, matrice.vector);
-  std::swap(testa, matrice.testa);
-  std::swap(size, matrice.size);
+  for(unsigned long i = 0; i< vector.Size() && &matrice.testa == vector[i]; i++)
+    vector[i] = &testa;
+  for(unsigned long i = 0; i< matrice.vector.Size() && matrice.vector[i] == &testa; i++)
+    matrice.vector[i] = &matrice.testa;
 }
 
 template <typename Data>
 MatrixCSR<Data>& MatrixCSR<Data>::operator=(const MatrixCSR<Data>& matrice)
 {
-  MatrixCSR *nuovaMatrice = new MatrixCSR(matrice);
-  std::swap(*this, *nuovaMatrice);
-  delete nuovaMatrice;
-  return *this;
+    Clear();
+    vector.Resize(matrice.row + 1);
+    for(unsigned long i = 0; i <= matrice.row; i++)
+      vector[i] = &testa;
+
+    row = matrice.row;
+    column = matrice.column;
+    for(unsigned long i = 0; i < row; i++)
+    {
+      for(Node** ptr = matrice.vector[i]; ptr != matrice.vector[i + 1]; ptr = &((*ptr)->next))
+      {
+        Node& node = **ptr;
+        (*this)(i, node.element.first) = node.element.second;
+      }
+    }
+    return *this;
 }
 
 template <typename Data>
 MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& matrice) noexcept
 {
-  std::swap(row, matrice.row);
-  std::swap(column, matrice.column);
-  std::swap(vector, matrice.vector);
-  std::swap(testa, matrice.testa);
-  std::swap(size, matrice.size);
-  return *this;
+   std::swap(size, matrice.size);
+   std::swap(testa, matrice.testa);
+   std::swap(row, matrice.row);
+   std::swap(column, matrice.column);
+   std::swap(vector, matrice.vector);
+   for(unsigned long i = 0; i< vector.Size() && &matrice.testa == vector[i]; i++)
+    vector[i] = &testa;
+   for(unsigned long i = 0; i< matrice.vector.Size() && matrice.vector[i] == &testa; i++)
+    matrice.vector[i] = &matrice.testa;
+   return *this;
 }
 
 template <typename Data>
@@ -129,88 +148,61 @@ void MatrixCSR<Data>::RowResize(unsigned long newRow)
 {
   if(newRow == 0)
   {
-    unsigned long app = column;
+    unsigned long tmp = column;
     Clear();
-    column = app;
+    column = tmp;
   }
-  else
-  {
-    if(newRow < row)
-    {
-      Node** tmp = vector[newRow];
-      Node* curr = nullptr;
-      curr = *tmp;
-      *tmp = nullptr; //Stacco nodo, precedente ultimo nodo
-      while(curr != nullptr)
-      {
-        tmp = &(curr->next);
-        delete curr;
-        size--;
-        curr = *tmp;
-      }
-      row = newRow;
-      vector.Resize(row + 1);
+  else if(newRow < row){
+    Node* tmp;
+    Node* curr = *vector[newRow];
+    while(curr != nullptr){
+      tmp = curr;
+      curr = curr->next;
+      delete tmp;
+      size--;
     }
-    if(newRow > row)
-    {
-      if(row == 0)
-      {
-        vector.Resize(newRow + 1);
-        for(unsigned long i = row; i < newRow + 1; i++) vector[i] = &testa;
-        row = newRow;
-      }
-      else
-      {
-        vector.Resize(newRow + 1);
-        for(unsigned long i = row; i < newRow; i++) vector[i+1] = vector[i];
-        row = newRow;
-      }
-    }
+    row = newRow;
+    vector.Resize(row + 1);
+    *vector.Back() = nullptr;
+  }
+  if(newRow > row){
+    vector.Resize(newRow + 1);
+    for(unsigned long i = row; i < newRow; i++)
+      vector[i+1] = vector[i];
+    row = newRow;
   }
 }
 
 template <typename Data>
 void MatrixCSR<Data>::ColumnResize(unsigned long newColumn)
 {
-  // if(newColumn == 0)
-  // {
-  //   List<std::pair<unsigned long, Data>>::Clear();
-  //   for(unsigned long i = 0; i < vector.Size(); i++)  //Mi salvo tutte le righe, ma le faccio puntare a testa.
-  //     vector[i] = &testa;
-  //   size = 0;
-  //   // column = 0;
-  // }
-  // else
-  // {
-  //   if(newColumn < column)
-  //   {
-  //     Node** tmp;
-  //     unsigned long i = 0;
-  //     while(i < row)
-  //     {
-  //       tmp = vector[i];
-  //       while(tmp != vector[i + 1])
-  //       {
-  //         if((*tmp)->element.first >= newColumn)
-  //         {
-  //           Node* del = *tmp;
-  //           if(&(*tmp)->next == vector[i + 1])
-  //             vector[i+1] = tmp;
-  //           *tmp = (*tmp)->next;
-  //           del->next = nullptr;
-  //           delete del;
-  //           size--;
-  //         }
-  //         else
-  //         {
-  //           tmp = &((*tmp)->next);
-  //         }
-  //       }
-  //       i++;
-  //     }
-  //   }
-  //   column = newColumn;
-  // }
+  if(newColumn == 0){
+           List<std::pair<unsigned long, Data>>::Clear();
+           for (unsigned long i = 0; i < vector.Size(); ++i) {
+               vector[i] = &testa;
+           }
+           size = 0;
+       } else if(newColumn < column){
+           for (unsigned long i = 0; i < row; ++i) {
+               Node** tmp = vector[i];
+               while (tmp != vector[i+1])
+               {
+                   if ((*tmp)->element.first >= newColumn){
+                       Node* del = *tmp;
+                       *tmp = del->next;
+                       if (&(del->next) == vector[i+1]){
+                           for(unsigned long j = i+1; j < vector.Size() && vector[j] == &(del->next); ++j){
+                               vector[j] = tmp;
+                           }
+                       }
+                       del->next = nullptr;
+                       delete del;
+                       size--;
+                   }else tmp = &((*tmp)->next);
+               }
+           }
+       }
+       column = newColumn;
 }
 
 template <typename Data>

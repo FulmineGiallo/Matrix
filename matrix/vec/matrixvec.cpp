@@ -72,81 +72,52 @@ void MatrixVec<Data>::Clear()
 template <typename Data>
 void MatrixVec<Data>::RowResize(unsigned long resizeRow)
 {
-  if(resizeRow == 0)
-    Clear();
-  else
-  {
-    if(column == 0)
-      column = 1;
-    Vector<Data>::Resize(resizeRow * column);
-    row = resizeRow;
-  }
-
-
+  // if(resizeRow == 0)
+  //   Clear();
+  // else
+  // {
+  //   if(column == 0)
+  //     column = 1;
+  //   Vector<Data>::Resize(resizeRow * column);
+  //   row = resizeRow;
+  // }
+  unsigned long c = column;
+  Vector<Data>::Resize(resizeRow * column); // ci salviamo c, perchè nel resize di Vector viene cambiata.
+  column = c;
+  row = resizeRow;
 
 }
 
 template <typename Data>
 void MatrixVec<Data>::ColumnResize(unsigned long resizeColumn)
 {
-  if(resizeColumn != 0 && column != 0)
-  {
-    if(resizeColumn < column)
+
+    if(resizeColumn != column)
     {
-      Vector<Data> vec(row * resizeColumn);
-      unsigned long j = 0;
-      unsigned long k = 0;
-      for(unsigned long i = 0; i < row * column; i++, k++)
+      Data* TmpElements = new Data[row * resizeColumn]{};
+
+      int limit = (column < resizeColumn) ? column : resizeColumn;
+      for(unsigned long i = 0; i < row; i++)
       {
-        if( j == resizeColumn )
+        for(unsigned long j = 0; j < limit; j++)
         {
-          i = i + (column - resizeColumn);
-          j = 0;
+            std::swap(Elements[(i * column) + j], TmpElements[(i * resizeColumn) + j]);
         }
-        if( i < row * column)
-          vec[k] = Elements[i];
-        j++;
       }
-      Vector<Data>::operator=(vec);
-      vec.Clear();
-
+      std::swap(Elements, TmpElements);
+      delete []TmpElements;
+      size = row * resizeColumn;
+      column = resizeColumn;
     }
-    if(resizeColumn > column)
-    {
-      Vector<Data> vec(row * resizeColumn);
-      unsigned long j = 0;
-      unsigned long i = 0;
-      for(int i = 0; i < vec.Size(); i++)
-        vec[i] = {};
+    else if(resizeColumn == 0)
+      Clear();
 
-      for(int k = 0; k < row * resizeColumn; i++, k++)
-      {
-        if(j == column)
-        {
-          i = i + (resizeColumn - column);
-          j = 0;
-        }
-        if(i < row * resizeColumn)
-          vec[i] = Elements[k];
-        j++;
-      }
-
-      Vector<Data>::operator=(vec);
-      vec.Clear();
-    }
-
-  }
-  else
-    Clear();
-
-  column = resizeColumn;
 
 }
 
 template <typename Data>
 bool MatrixVec<Data>::ExistsCell(const unsigned long cellRow, const unsigned long cellColumn) const noexcept
 {
-
   if( ( (cellRow * column) + cellColumn ) < ( row * column ))
     return true;
   else
@@ -178,7 +149,8 @@ MatrixVec<Data>::MatrixVec()
 {
   row = 0;
   column = 0;
-  size = 0;
+  Vector<Data>::Clear();
+
 }
 /* ************************************************************************** */
 
