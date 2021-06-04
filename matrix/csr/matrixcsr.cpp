@@ -120,7 +120,7 @@ bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& matrice) const noexcept
         ptr1 = &(*ptr1)->next;
         ptr2 = &(*ptr2)->next;
       }
-      if(ptr1 != vector[i+1] || ptr2 != matrice.vector[i+1])
+      if(ptr1 != vector[i+1] || ptr2 != matrice.vector[i+1]) //Ordine degli elementi
         return false;
     }
   }
@@ -152,10 +152,12 @@ void MatrixCSR<Data>::RowResize(unsigned long newRow)
     Clear();
     column = tmp;
   }
-  else if(newRow < row){
+  else if(newRow < row)
+  {
     Node* tmp;
     Node* curr = *vector[newRow];
-    while(curr != nullptr){
+    while(curr != nullptr)
+    {
       tmp = curr;
       curr = curr->next;
       delete tmp;
@@ -165,7 +167,8 @@ void MatrixCSR<Data>::RowResize(unsigned long newRow)
     vector.Resize(row + 1);
     *vector.Back() = nullptr;
   }
-  if(newRow > row){
+  if(newRow > row)
+  {
     vector.Resize(newRow + 1);
     for(unsigned long i = row; i < newRow; i++)
       vector[i+1] = vector[i];
@@ -176,31 +179,41 @@ void MatrixCSR<Data>::RowResize(unsigned long newRow)
 template <typename Data>
 void MatrixCSR<Data>::ColumnResize(unsigned long newColumn)
 {
-  if(newColumn == 0){
-           List<std::pair<unsigned long, Data>>::Clear();
-           for (unsigned long i = 0; i < vector.Size(); ++i) {
-               vector[i] = &testa;
-           }
-           size = 0;
-       } else if(newColumn < column){
-           for (unsigned long i = 0; i < row; ++i) {
-               Node** tmp = vector[i];
-               while (tmp != vector[i+1])
-               {
-                   if ((*tmp)->element.first >= newColumn){
-                       Node* del = *tmp;
-                       *tmp = del->next;
-                       if (&(del->next) == vector[i+1]){
-                           for(unsigned long j = i+1; j < vector.Size() && vector[j] == &(del->next); ++j){
-                               vector[j] = tmp;
-                           }
-                       }
-                       del->next = nullptr;
-                       delete del;
-                       size--;
-                   }else tmp = &((*tmp)->next);
-               }
-           }
+  if(newColumn == 0)
+  {
+    List<std::pair<unsigned long, Data>>::Clear();
+    for (unsigned long i = 0; i < vector.Size(); ++i)
+    {
+        vector[i] = &testa;
+    }
+    size = 0;
+  }
+  else if(newColumn < column)
+    {
+      for (unsigned long i = 0; i < row; ++i)
+      {
+        Node** tmp = vector[i];
+        while (tmp != vector[i+1])
+        {
+          if ((*tmp)->element.first >= newColumn)
+          {
+            Node* del = *tmp;
+            *tmp = del->next;
+            if (&(del->next) == vector[i+1])
+            {
+              for(unsigned long j = i+1; j < vector.Size() && vector[j] == &(del->next); ++j)
+              {
+                vector[j] = tmp;
+              }
+            }
+            del->next = nullptr;
+            delete del;
+            size--;
+          }
+          else
+            tmp = &((*tmp)->next);
+          }
+        }
        }
        column = newColumn;
 }
@@ -261,6 +274,9 @@ Data& MatrixCSR<Data>::operator()(const unsigned long currRow, const unsigned lo
     }
 
 }
+
+
+
 
 template <typename Data>
 const Data& MatrixCSR<Data>::operator()(const unsigned long r, const unsigned long c) const
