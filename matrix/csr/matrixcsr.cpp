@@ -156,7 +156,7 @@ void MatrixCSR<Data>::RowResize(unsigned long newRow)
   {
     Node* tmp;
     Node* curr = *vector[newRow];
-    while(curr != nullptr)
+    while(curr != nullptr) //Vado fino alla fine della riga
     {
       tmp = curr;
       curr = curr->next;
@@ -171,7 +171,7 @@ void MatrixCSR<Data>::RowResize(unsigned long newRow)
   {
     vector.Resize(newRow + 1);
     for(unsigned long i = row; i < newRow; i++)
-      vector[i+1] = vector[i];
+      vector[i+1] = vector[i]; //Le nuove righe, puntano all'ultimo elemento nella matrice, che punta a nullptr.
     row = newRow;
   }
 }
