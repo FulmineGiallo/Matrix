@@ -107,6 +107,8 @@ public:
   void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override MappableContainer member
   void FoldPostOrder(const FoldFunctor,const void*, void*) const override; // Override MappableContainer member
 
+  //Funzioni ausiliari
+  bool Exists(const Data& dat) const noexcept;
 };
 
 /* ************************************************************************** */

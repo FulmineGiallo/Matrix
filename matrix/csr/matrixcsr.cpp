@@ -346,7 +346,13 @@ void MatrixCSR<Data>::FoldPostOrder(const FoldFunctor fun, const void* v, void* 
   , v, v2);
 }
 
-
+// Exists
+template<typename Data>
+bool MatrixCSR<Data>::Exists(const Data& dat) const noexcept{
+  bool exists = false;
+  FoldPreOrder(&AuxFoldExists<Data>, &dat, &exists);
+  return exists;
+}
 
 
 /* ************************************************************************** */
