@@ -353,7 +353,7 @@ namespace lasd
         cin  >> ridmensionamento;
         if(ridmensionamento == 1)
         {
-          cout << "Nuove colonne : " << endl
+          cout << "Nuove colonne : " << endl;
           cin >> newValue;
           if(tipo == 1)
           {
@@ -380,7 +380,7 @@ namespace lasd
         }
         if(ridmensionamento == 2)
         {
-          cout << "Nuove righe : " << endl
+          cout << "Nuove righe : " << endl;
           cin >> newValue;
           if(tipo == 1)
           {
